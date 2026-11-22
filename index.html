@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SUPER TAMU</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="bgLayer" class="bg-layer" aria-hidden="true"></div>
+  <div id="topProgress" class="top-progress" aria-hidden="true"></div>
+
+  <!-- Loading awal (hanya tampil bila belum ada cache di perangkat) -->
+  <div id="loadingOverlay" class="overlay-load" role="status">
+    <div class="spinner"></div>
+    <p id="loadingText">Memuat SUPER TAMU...</p>
+    <button id="btnRetry" class="btn primary" type="button" hidden>Coba lagi</button>
+  </div>
+
+  <header class="appbar glass">
+    <button id="brandBtn" class="brand" type="button" aria-label="Ke beranda">
+      <img id="brandLogo" class="brand-logo" alt="Logo toko" hidden>
+      <span id="brandMark" class="brand-mark" aria-hidden="true">ST</span>
+      <span class="brand-text"><b>SUPER TAMU</b><small id="brandStore">Super Indo</small></span>
+    </button>
+    <div class="appbar-actions">
+      <button id="btnTheme" class="icon-btn" type="button" aria-label="Ganti tema terang/gelap"></button>
+      <button id="btnHost" class="chip-btn" type="button" data-t="btn_host">Tuan rumah</button>
+    </div>
+  </header>
+
+  <main id="wrap" class="wrap">
+
+    <!-- ═════════ BERANDA ═════════ -->
+    <section id="v-home" class="view">
+      <h1 class="title" data-t="home_title">Selamat datang</h1>
+      <p class="lead" data-t="home_lead">Isi data kunjungan Anda: ceklist toko dan produk yang mendekati expired. Selesai setelah diverifikasi tuan rumah.</p>
+      <div id="homePanduan" class="card guide" hidden><h3 data-t="guide_title">Panduan</h3><p id="homePanduanText"></p></div>
+      <div id="homeStatus"></div>
+      <button id="btnStart" class="btn primary block" type="button" style="margin-bottom:14px">Mulai Kunjungan</button>
+      <div class="card glass">
+        <ol class="how">
+          <li><b data-t="how1_t">Data diri</b><span data-t="how1_s">Nama, perusahaan, dan nomor HP</span></li>
+          <li><b data-t="how2_t">Ceklist</b><span data-t="how2_s">Kebersihan dan label rak</span></li>
+          <li><b data-t="how3_t">Produk expired</b><span data-t="how3_s">Cukup isi PLU, deskripsi muncul otomatis</span></li>
+          <li><b data-t="how4_t">Verifikasi</b><span data-t="how4_s">Minta tuan rumah menyetujui sebelum pulang</span></li>
+        </ol>
+        
+      </div>
+    </section>
+
+    <!-- ═════════ TAMU: LANGKAH 1 ═════════ -->
+    <section id="v-g1" class="view" hidden>
+      <div class="step-head"><span class="step-label"><span data-t="stp">Langkah</span> 1 dari 4</span><div class="steps" data-step="1"></div></div>
+      <h1 class="title" data-t="s1_title">Data diri</h1>
+      <form id="formG1" class="card glass" novalidate autocomplete="off">
+        <div class="field">
+          <label for="inPrs"><span data-t="f_prs">Perusahaan</span> <small data-t="f_prs_h">(pilih atau ketik baru)</small></label>
+          <input id="inPrs" maxlength="80" required autocomplete="off" enterkeyhint="next">
+        </div>
+        <div class="field">
+          <label for="inNama"><span data-t="f_nama">Nama tamu</span> <small data-t="f_nama_h">(pilih atau ketik baru)</small></label>
+          <input id="inNama" maxlength="80" required autocomplete="off" enterkeyhint="next">
+        </div>
+        <div class="field">
+          <label for="inHp" data-t="f_hp">Nomor HP</label>
+          <input id="inHp" type="tel" inputmode="tel" maxlength="20" required placeholder="0812 3456 7890" autocomplete="off">
+          <span class="hint">Hanya terlihat oleh tuan rumah.</span>
+        </div>
+        <div id="errG1" class="err" role="alert"></div>
+        <button class="btn primary block" type="submit" data-t="btn_g1">Lanjut ke Ceklist</button>
+      </form>
+    </section>
+
+    <!-- ═════════ TAMU: LANGKAH 2 ═════════ -->
+    <section id="v-g2" class="view" hidden>
+      <div class="step-head"><span class="step-label"><span data-t="stp">Langkah</span> 2 dari 4</span><div class="steps" data-step="2"></div></div>
+      <h1 class="title" data-t="s2_title">Ceklist toko</h1>
+      <p class="lead" data-t="s2_lead">Jawab setiap butir. Semua wajib dijawab.</p>
+      <div id="ckList"></div>
+      <input id="fileCk" type="file" accept="image/*" hidden>
+      <div id="errG2" class="err" role="alert"></div>
+      <div class="row-btns">
+        <button id="btnBack2" class="btn ghost" type="button" data-t="btn_back">Kembali</button>
+        <button id="btnNext2" class="btn primary" type="button" data-t="btn_g2">Lanjut ke Data Produk</button>
+      </div>
+    </section>
+
+    <!-- ═════════ TAMU: LANGKAH 3 ═════════ -->
+    <section id="v-g3" class="view" hidden>
+      <div class="step-head"><span class="step-label"><span data-t="stp">Langkah</span> 3 dari 4</span><div class="steps" data-step="3"></div></div>
+      <h1 class="title" data-t="s3_title">Produk mendekati expired</h1>
+      <p class="lead" data-t="s3_lead">Cukup isi PLU, deskripsi muncul otomatis.</p>
+      <div class="card glass">
+        <div class="field">
+          <label for="inPlu" data-t="f_plu">PLU produk</label>
+          <input id="inPlu" type="text" inputmode="text" maxlength="20" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        </div>
+        <div id="pluResult" aria-live="polite"></div>
+        <div class="two">
+          <div class="field">
+            <label for="inTgl" data-t="f_tgl">Expired terdekat</label>
+            <input id="inTgl" type="date">
+          </div>
+          <div class="field">
+            <label for="inLok" data-t="f_lok">Kode lokasi</label>
+            <input id="inLok" maxlength="20" autocomplete="off" autocapitalize="characters" placeholder="A01-R03">
+          </div>
+        </div>
+        <div id="prdFotoBox" class="foto-box"></div>
+        <input id="filePrd" type="file" accept="image/*" hidden>
+        <div id="errG3" class="err" role="alert"></div>
+        <div class="row-btns">
+          <button id="btnPrdFoto" class="btn ghost" type="button" aria-label="Tambah foto (opsional)"></button>
+          <button id="btnPrdAdd" class="btn tint grow" type="button" data-t="btn_add">Tambah ke daftar</button>
+        </div>
+      </div>
+      <div class="card glass">
+        <div class="card-h"><h3 data-t="sec_didata">Sudah didata</h3><span id="prdCount" class="muted"></span></div>
+        <div id="prdList"></div>
+        <label class="check"><input id="chkTanpa" type="checkbox"> <span data-t="chk_tanpa">Tidak ada produk mendekati expired</span></label>
+      </div>
+      <div id="errG3b" class="err" role="alert"></div>
+      <div class="row-btns">
+        <button id="btnBack3" class="btn ghost" type="button" data-t="btn_back">Kembali</button>
+        <button id="btnNext3" class="btn primary" type="button" data-t="btn_g3">Lanjut ke Ringkasan</button>
+      </div>
+    </section>
+
+    <!-- ═════════ TAMU: LANGKAH 4 ═════════ -->
+    <section id="v-g4" class="view" hidden>
+      <div class="step-head"><span class="step-label"><span data-t="stp">Langkah</span> 4 dari 4</span><div class="steps" data-step="4"></div></div>
+      <h1 class="title" data-t="s4_title">Ringkasan kunjungan</h1>
+      <p class="lead" data-t="s4_lead">Periksa kembali, lalu minta verifikasi tuan rumah.</p>
+      <div id="sumBox"></div>
+      <div class="notice" data-t="s4_note">Kunjungan baru selesai setelah tuan rumah menyetujui. Tunggu verifikasi sebelum pulang.</div>
+      <div id="errG4" class="err" role="alert"></div>
+      <div class="row-btns">
+        <button id="btnBack4" class="btn ghost" type="button" data-t="btn_back">Kembali</button>
+        <button id="btnSubmit" class="btn primary grow" type="button" data-t="btn_submit">Ajukan Verifikasi</button>
+      </div>
+    </section>
+
+    <!-- ═════════ TAMU: STATUS ═════════ -->
+    <section id="v-g5" class="view" hidden>
+      <h1 class="title" data-t="s5_title">Status kunjungan</h1>
+      <div id="statusBox" class="card glass"></div>
+    </section>
+
+    <!-- ═════════ TUAN RUMAH: LOGIN ═════════ -->
+    <section id="v-hlogin" class="view" hidden>
+      <h1 class="title" data-t="login_title">Masuk tuan rumah</h1>
+      <form id="formLogin" class="card glass" novalidate>
+        <div class="field">
+          <label for="inPin" data-t="f_pin">PIN</label>
+          <input id="inPin" type="password" inputmode="numeric" maxlength="8" autocomplete="off" required>
+        </div>
+        <div id="errLogin" class="err" role="alert"></div>
+        <button class="btn primary block" type="submit" data-t="btn_login">Masuk</button>
+      </form>
+    </section>
+
+    <!-- ═════════ TUAN RUMAH: PANEL ═════════ -->
+    <section id="v-host" class="view" hidden>
+      <div class="host-bar">
+        <span id="hostName" class="muted"></span>
+        <button id="btnLogout" class="chip-btn" type="button" data-t="btn_logout">Keluar</button>
+      </div>
+
+      <div id="h-verif" class="hview">
+        <div class="h-title"><h1 class="title" data-t="t_verif">Verifikasi</h1><button id="btnRefVerif" class="chip-btn" type="button" data-t="btn_refresh">Segarkan</button></div>
+        <div id="verifList"></div>
+      </div>
+
+      <div id="h-kunj" class="hview" hidden>
+        <h1 class="title" data-t="t_kunj">Hasil kunjungan</h1>
+        <div id="kunjPeriod" class="chips"></div>
+        <div id="kunjCustom" class="two" hidden>
+          <div class="field"><label for="kFrom">Dari</label><input id="kFrom" type="date"></div>
+          <div class="field"><label for="kTo">Sampai</label><input id="kTo" type="date"></div>
+        </div>
+        <div class="filters">
+          <input id="kSearch" type="search" placeholder="Cari nama, perusahaan, ID" aria-label="Cari kunjungan">
+          <select id="kStatus" aria-label="Filter status">
+            <option value="">Semua status</option><option>Menunggu Verifikasi</option><option>Disetujui</option><option>Ditolak</option>
+          </select>
+          <select id="kPrs" aria-label="Filter perusahaan"><option value="">Semua perusahaan</option></select>
+        </div>
+        <div id="kunjInfo" class="muted small"></div>
+        <div id="kunjList" class="card glass table-wrap"></div>
+      </div>
+
+      <div id="h-exp" class="hview" hidden>
+        <h1 class="title" data-t="t_exp">Mendekati expired</h1>
+        <div id="expChips" class="chips"></div>
+        <div class="filters">
+          <select id="eStatus" aria-label="Filter status tindak lanjut">
+            <option value="Baru">Belum ditarik</option><option value="Sudah Ditarik">Sudah ditarik</option><option value="">Semua status</option>
+          </select>
+          <select id="ePrs" aria-label="Filter perusahaan"><option value="">Semua perusahaan</option></select>
+          <select id="eLok" aria-label="Filter lokasi"><option value="">Semua lokasi</option></select>
+        </div>
+        <div id="expInfo" class="muted small"></div>
+        <div id="expList"></div>
+      </div>
+
+      <div id="h-dash" class="hview" hidden>
+        <h1 class="title" data-t="t_dash">Dasbor</h1>
+        <div id="dashPeriod" class="chips"></div>
+        <div id="dashCustom" class="two" hidden>
+          <div class="field"><label for="dFrom">Dari</label><input id="dFrom" type="date"></div>
+          <div class="field"><label for="dTo">Sampai</label><input id="dTo" type="date"></div>
+        </div>
+        <div id="dashBody"></div>
+      </div>
+
+      <div id="h-data" class="hview" hidden>
+        <h1 class="title" data-t="t_data">Data (Super Admin)</h1>
+        <div id="dataTabs" class="chips"></div>
+        <div class="filters" style="grid-template-columns:1fr">
+          <input id="dataSearch" type="search" placeholder="Cari di tabel ini" aria-label="Cari data">
+        </div>
+        <div id="dataBody"></div>
+      </div>
+
+      <div id="h-set" class="hview" hidden>
+        <h1 class="title" data-t="t_set">Pengaturan</h1>
+        <div id="setTabs" class="chips"></div>
+        <div id="setBody"></div>
+      </div>
+
+      <nav id="hostNav" class="hostnav glass" aria-label="Menu tuan rumah"></nav>
+    </section>
+  </main>
+
+  <!-- ═════════ MODAL ═════════ -->
+  <div id="mDetail" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mDetailTitle">
+    <div class="modal-card glass-strong">
+      <div class="modal-h"><h2 id="mDetailTitle">Detail kunjungan</h2><button class="icon-btn" type="button" data-close="mDetail" aria-label="Tutup"></button></div>
+      <div id="mDetailBody" class="modal-b"></div>
+    </div>
+  </div>
+
+  <div id="mPreview" class="modal" hidden role="dialog" aria-modal="true" aria-label="Pratinjau foto">
+    <div class="modal-card glass-strong">
+      <div class="modal-h"><h2>Pratinjau foto</h2><button class="icon-btn" type="button" data-close="mPreview" aria-label="Tutup"></button></div>
+      <div class="modal-b center"><img id="previewImg" class="preview-img" alt="Foto"></div>
+      <div class="modal-f">
+        <button class="btn ghost" type="button" data-close="mPreview">Tutup</button>
+        <a id="previewDl" class="btn primary" href="#" target="_blank" rel="noopener">Unduh</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="mForm" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mFormTitle">
+    <div class="modal-card glass-strong">
+      <div class="modal-h"><h2 id="mFormTitle">Form</h2><button class="icon-btn" type="button" data-close="mForm" aria-label="Tutup"></button></div>
+      <form id="mFormBody" class="modal-b" novalidate></form>
+    </div>
+  </div>
+
+  <div id="mConfirm" class="modal" hidden role="alertdialog" aria-modal="true" aria-labelledby="mConfirmMsg">
+    <div class="modal-card glass-strong small">
+      <div class="modal-b"><p id="mConfirmMsg"></p></div>
+      <div class="modal-f">
+        <button id="mConfirmNo" class="btn ghost" type="button">Batal</button>
+        <button id="mConfirmYes" class="btn primary" type="button">Ya</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <noscript><p style="padding:24px;font:16px sans-serif">Aplikasi ini memerlukan JavaScript.</p></noscript>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
